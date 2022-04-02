@@ -1,12 +1,106 @@
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  Button,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import React, { useState } from "react";
 
-import { StatusBar } from 'expo-status-bar';
+import Header from "./components/Header";
+import { StatusBar } from "expo-status-bar";
 
 export default function App() {
+  const [textItem, setTextItem] = useState("");
+  const [itemList, setItemList] = useState([]);
+
+  const onChangeItem = (t) => {
+    setTextItem(t);
+  };
+
+  const addItem = () => {
+    setItemList((element) => [
+      ...element,
+      {
+        id: Math.floor(Math.random() * (500 - 1) + 1).toString(),
+        value: textItem,
+      },
+    ]);
+    setTextItem("");
+  };
+
+  const onHandlerDelete = (id) => {
+    setItemList((elements) => elements.filter((item) => item.id !== id));
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Hola, Coder!</Text>
-      <StatusBar style="auto" />
+    <View>
+      <Header title={"UltraFit"} />
+
+      <View style={{ padding: 30, backgroundColor: "#f0f8ff" }}>
+        <Text style={styles.appDescription}>
+          Please type in the next box the food which you want to see more
+          details..
+        </Text>
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Descripcion item"
+            value={textItem}
+            onChangeText={onChangeItem}
+            style={{
+              borderBottomColor: "black",
+              borderBottomWidth: 1,
+              width: 200,
+              marginBottom: 35,
+            }}
+          />
+        </View>
+        <View style={{ marginBottom: 20 }}>
+          <Pressable
+            style={styles.addButton}
+            onPress={addItem}
+            disabled={!textItem}
+          >
+            <Text
+              style={{
+                color: "#fff8dc",
+                textAlign: "center",
+                fontWeight: "bold",
+                paddingTop: 5,
+              }}
+            >
+              Add item
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.itemBox}>
+          {itemList.map((item) => (
+            <View style={{ flexDirection: "row" }}>
+              <Text style={styles.listFood}>
+                ID: {item.id} Item: {item.value}{" "}
+              </Text>
+              <Pressable
+                style={styles.removeButton}
+                onPress={() => onHandlerDelete(item.id)}
+              >
+                {" "}
+                <Text
+                  style={{
+                    color: "#fff8dc",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    fontSize: 11,
+                  }}
+                >
+                  Remove
+                </Text>
+              </Pressable>
+            </View>
+          ))}
+        </View>
+        <StatusBar style="auto" />
+      </View>
     </View>
   );
 }
@@ -14,8 +108,56 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inputContainer: {
+    alignItems: "center",
+  },
+  appDescription: {
+    textAlign: "center",
+    fontSize: 18,
+    fontFamily: "Monaco",
+    justifyContent: "center",
+    marginBottom: 30,
+  },
+  listFood: {
+    backgroundColor: "#7b68ee",
+    color: '#fff',
+    borderRadius: 5,
+    flex: 1,
+    padding: 7,
+    marginRight: 10,
+    marginTop: 10
+  },
+  addButton: {
+    alignSelf: "center",
+    backgroundColor: "#572eb0",
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+
+    elevation: 7,
+    height: 30,
+    width: 150,
+  },
+  removeButton: {
+    alignSelf: "center",
+    backgroundColor: "#dc143c",
+    borderRadius: 5,
+    height: 20,
+    width: 60,
+    paddingz: 5
+  },
+  itemBox: {
+    
+    alignSelf: "center",
+    marginTop: 30
   },
 });
