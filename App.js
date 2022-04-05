@@ -1,5 +1,6 @@
 import {
   Button,
+  FlatList,
   Pressable,
   StyleSheet,
   Text,
@@ -33,6 +34,30 @@ export default function App() {
   const onHandlerDelete = (id) => {
     setItemList((elements) => elements.filter((item) => item.id !== id));
   };
+
+  const renderItem = ({item}) => (
+    <View style={{ flexDirection: "row" }}>
+      <Text style={styles.listFood}>
+        ID: {item.id} Item: {item.value}
+      </Text>
+      <Pressable
+        style={styles.removeButton}
+        onPress={() => onHandlerDelete(item.id)}
+      >
+        {" "}
+        <Text
+          style={{
+            color: "#fff8dc",
+            textAlign: "center",
+            fontWeight: "bold",
+            fontSize: 11,
+          }}
+        >
+          Remove
+        </Text>
+      </Pressable>
+    </View>
+  );
 
   return (
     <View>
@@ -75,6 +100,11 @@ export default function App() {
           </Pressable>
         </View>
         <View style={styles.itemBox}>
+          <View style={{ flexDirection: "row" }}>
+            <FlatList data={itemList} renderItem={renderItem} />
+          </View>
+        </View>
+        {/* <View style={styles.itemBox}>
           {itemList.map((item) => (
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.listFood}>
@@ -98,7 +128,7 @@ export default function App() {
               </Pressable>
             </View>
           ))}
-        </View>
+        </View> */}
         <StatusBar style="auto" />
       </View>
     </View>
@@ -124,12 +154,12 @@ const styles = StyleSheet.create({
   },
   listFood: {
     backgroundColor: "#7b68ee",
-    color: '#fff',
+    color: "#fff",
     borderRadius: 5,
     flex: 1,
     padding: 7,
     marginRight: 10,
-    marginTop: 10
+    marginTop: 10,
   },
   addButton: {
     alignSelf: "center",
@@ -153,11 +183,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 20,
     width: 60,
-    paddingz: 5
+    paddingTop: 3,
+    marginTop: 8
+
   },
   itemBox: {
-    
     alignSelf: "center",
-    marginTop: 30
+    marginTop: 30,
   },
 });
