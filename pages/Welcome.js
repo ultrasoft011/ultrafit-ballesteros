@@ -7,17 +7,18 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 
-const Welcome = () => {
+const Welcome = ({ navigation }) => {
   const [renderButton, setRenderButton] = useState();
-
-  const handleStart = (props) => {
-    props.onStart("2"); /* Aqui lo que quiero hacer es enviar el 2 para que renderice la otra pantalla la de InfoFit.js */
-  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setRenderButton(
-        <Pressable style={styles.startButton} onPress={handleStart}>
+        <Pressable
+          style={styles.startButton}
+          onPress={() => {
+            navigation.navigate("InfoFit");
+          }}
+        >
           <Text
             style={{
               color: "#fff8dc",
@@ -31,12 +32,12 @@ const Welcome = () => {
           </Text>
         </Pressable>
       );
-      console.log("This will run after 4 seconds!");
-    }, 4000);
+      console.log("This will run after 3 seconds!");
+    }, 3000);
     return () => clearTimeout(timer);
   }, []);
   return (
-    <View>
+    <View style={styles.welcomeBody}>
       <ImageBackground
         style={styles.backgroundImage}
         source={require("../assets/welcome-image.png")}
@@ -61,19 +62,23 @@ const Welcome = () => {
 };
 
 const styles = StyleSheet.create({
+  welcomeBody: {
+    flex: 1,
+  },
   title: {
     fontSize: 36,
     alignItems: "center",
     alignSelf: "center",
     color: "#fff8dc",
     fontWeight: "bold",
-    marginTop: 40,
     letterSpacing: 3,
     backgroundColor: "#0A87F0",
     opacity: 0.95,
     height: 48,
     width: 280,
     borderRadius: 7,
+    position: "absolute",
+    top: 35,
   },
   backgroundImage: {
     height: 740,
@@ -83,11 +88,12 @@ const styles = StyleSheet.create({
   startButton: {
     alignSelf: "center",
     backgroundColor: "#6A0FFF",
+    position: "absolute",
     borderRadius: 5,
     height: 50,
     width: 140,
     paddingTop: 3,
-    marginTop: 580,
+    top: 590,
   },
 });
 

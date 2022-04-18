@@ -9,12 +9,12 @@ import {
 import React, { useState } from "react";
 
 import Header from "../components/Header";
+import InfoProducts from "./InfoProducts";
 import { StatusBar } from "expo-status-bar";
 
-const InfoFit = () => {
+const InfoFit = ({ navigation }) => {
   const [textItem, setTextItem] = useState("");
   const [itemList, setItemList] = useState([]);
-
   const onChangeItem = (t) => {
     setTextItem(t);
   };
@@ -28,6 +28,7 @@ const InfoFit = () => {
       },
     ]);
     setTextItem("");
+    <InfoProducts text={"Added"} />;
   };
 
   const onHandlerDelete = (id) => {
@@ -43,7 +44,6 @@ const InfoFit = () => {
         style={styles.removeButton}
         onPress={() => onHandlerDelete(item.id)}
       >
-        {" "}
         <Text
           style={{
             color: "#fff8dc",
@@ -52,6 +52,7 @@ const InfoFit = () => {
             fontSize: 11,
           }}
         >
+          {console.log(itemList)}
           Remove
         </Text>
       </Pressable>
@@ -59,7 +60,7 @@ const InfoFit = () => {
   );
 
   return (
-    <View>
+    <View style={styles.infoBody}>
       <Header title={"UltraFit"} />
 
       <View style={{ padding: 30, backgroundColor: "#f0f8ff" }}>
@@ -135,8 +136,9 @@ const InfoFit = () => {
         <View style={{ marginBottom: 20 }}>
           <Pressable
             style={styles.nextButton}
-            onPress={addItem}
-            disabled={!textItem}
+            onPress={() => {
+              navigation.navigate("InfoProducts");
+            }}
           >
             <Text
               style={{
@@ -156,7 +158,9 @@ const InfoFit = () => {
 };
 
 const styles = StyleSheet.create({
-    
+  infoBody: {
+    fontFamily: "EBGaramondBold",
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -169,7 +173,6 @@ const styles = StyleSheet.create({
   appDescription: {
     textAlign: "center",
     fontSize: 18,
-    fontFamily: "Monaco",
     justifyContent: "center",
     marginBottom: 30,
   },
@@ -228,7 +231,5 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 });
-
-
 
 export default InfoFit;

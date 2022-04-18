@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
 
-import InfoFit from "./pages/InfoFit";
+import AppLoading from "expo-app-loading";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
+import UltraFitNavigation from "./navigation/UltraFitNavigation";
 import Welcome from "./pages/Welcome";
+import { useFonts } from "expo-font";
 
 export default function App() {
-  const [renderPage, setRenderPage] = useState(1);
+  const [loaded] = useFonts({
+    // BebasNeue: require("./assets/fonts/BebasNeue-Regular.ttf"),
+    // EBGaramond: require("./assets/fonts/EBGaramond-VariableFont_wght.ttf"),
+    // EBGaramondItalic: require("./assets/fonts/EBGaramond-Italic-VariableFont_wght.ttf"),
+    EBGaramondBold: require("./assets/fonts/static/EBGaramond-Bold.ttf"),
+  });
 
-  // let content = <Welcome handleStart={value}/> /* No se como recibir el valor que viene de Welcome cuando le dan click en el boton */
-  // console.log(content);
+  if (!loaded) return <AppLoading />;
 
-  if (renderPage === 1) {
-    setRenderPage(<Welcome />);
-  } else if (renderPage === 2) {
-    setRenderPage(<InfoFit />);
-  }
-
-  return <View>{renderPage}</View>;
+  return <UltraFitNavigation />;
 }
-
-const styles = StyleSheet.create({});
